@@ -78,12 +78,12 @@ const SERVICES = [
    images/ y copia un bloque. `alt` describe la foto (lectores de pantalla)
    y `caption` es el texto que se ve al ampliarla. */
 const GALLERY = [
-  { src: "images/trabajo-1.svg", alt: "Corte clásico a tijera",        caption: "Corte clásico a tijera" },
-  { src: "images/trabajo-2.svg", alt: "Afeitado con navaja",           caption: "Afeitado con navaja" },
-  { src: "images/trabajo-3.svg", alt: "Degradado con peinado de lado", caption: "Degradado y peinado" },
-  { src: "images/trabajo-4.svg", alt: "Corte y barba perfilada",       caption: "Corte + barba" },
-  { src: "images/trabajo-5.svg", alt: "Perfilado de barba",            caption: "Perfilado de barba" },
-  { src: "images/trabajo-6.svg", alt: "Corte moderno con textura",     caption: "Corte moderno" },
+  { src: "images/corte_clasico_a_tijera.png", alt: "Corte clásico a tijera",        caption: "Corte clásico a tijera" },
+  { src: "images/afeitado_con_navaja.png", alt: "Afeitado con navaja",           caption: "Afeitado con navaja" },
+  { src: "images/degradado_con_peinado_de_lado.jpg", alt: "Degradado con peinado de lado", caption: "Degradado y peinado" },
+  { src: "images/corte_y_barba_perfilada.jpg", alt: "Corte y barba perfilada",       caption: "Corte + barba" },
+  { src: "images/perfilado_de_barba.jpeg", alt: "Perfilado de barba",            caption: "Perfilado de barba" },
+  { src: "images/corte_moderno_con_textura.avif", alt: "Corte moderno con textura",     caption: "Corte moderno" },
 ];
 
 /* Horario semanal. El índice coincide con Date.getDay(): 0 = domingo.
