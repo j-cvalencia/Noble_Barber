@@ -1,0 +1,757 @@
+/* ==========================================================================
+   NAVAJA & TIJERA · Hoja de estilos
+   --------------------------------------------------------------------------
+   Índice
+   1. Variables (colores, tipografía, tema oscuro)
+   2. Base (reset y estilos globales)
+   3. Layout (contenedor y secciones)
+   4. Componentes
+      4.1 Botones
+      4.2 Cabecera
+      4.3 Portada (hero) y estado abierto/cerrado
+      4.4 Poste de barbero
+      4.5 Quiénes somos
+      4.6 Galería "Nuestro trabajo" y visor de imágenes
+      4.7 Lista de servicios
+      4.8 Horarios y contacto
+      4.9 Formulario de reserva
+      4.10 Confirmación
+      4.11 Pie de página
+   5. Accesibilidad (movimiento reducido)
+
+   Convención de nombres (BEM):
+     .bloque            → un componente         (.service)
+     .bloque__elemento  → una parte del bloque  (.service__price)
+     .bloque--variante  → una versión distinta  (.service--featured)
+   Para cambiar la paleta de la web, edita solo la sección 1.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. VARIABLES
+   ========================================================================== */
+:root {
+  /* Colores de marca */
+  --color-ink: #12233f;        /* azul oscuro: cabecera, hero, textos fuertes */
+  --color-red: #c8312b;        /* rojo del poste: acciones y precios */
+  --color-blue: #2a5aa8;       /* azul del poste: detalles */
+
+  /* Colores de interfaz (cambian en modo oscuro) */
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --text: #17202e;
+  --text-muted: #5d6879;
+  --border: #d8d9d6;
+  --heading: var(--color-ink);
+  --dark-bg: #12233f;          /* fondo de cabecera, hero y pie */
+  --dark-text: #f7f6f2;
+
+  /* Tipografía */
+  --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Espaciado y medidas */
+  --container-width: 1080px;
+  --header-height: 64px;
+  --radius: 4px;
+
+  /* Área segura en celulares con notch */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Tema oscuro: se activa solo según la preferencia del sistema,
+   o a mano con <html data-theme="dark"> / <html data-theme="light"> */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1626;
+    --surface: #15233b;
+    --text: #eceae4;
+    --text-muted: #9aa6ba;
+    --border: #2a3a56;
+    --heading: #eceae4;
+    --dark-bg: #0a1220;
+    --color-red: #e4504a;
+    --color-blue: #6a9be0;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1626;
+  --surface: #15233b;
+  --text: #eceae4;
+  --text-muted: #9aa6ba;
+  --border: #2a3a56;
+  --heading: #eceae4;
+  --dark-bg: #0a1220;
+  --color-red: #e4504a;
+  --color-blue: #6a9be0;
+}
+
+
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Evita que la cabecera fija tape los títulos al navegar por anclas */
+  scroll-padding-top: calc(var(--header-height) + var(--safe-top));
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1.0625rem/1.6 var(--font-body);
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+p { margin: 0; }
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--color-red);
+  outline-offset: 3px;
+}
+
+/* Los elementos con el atributo hidden nunca deben verse */
+[hidden] { display: none !important; }
+
+
+/* ==========================================================================
+   3. LAYOUT
+   ========================================================================== */
+.container {
+  width: min(var(--container-width), 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* Variante con fondo distinto para separar secciones */
+.section--alt {
+  background: var(--surface);
+  border-block: 1px solid var(--border);
+}
+
+.section__title {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  text-transform: uppercase;
+  color: var(--heading);
+}
+
+.section__intro {
+  max-width: 52ch;
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Dos columnas (horarios + ubicación) que pasan a una en móvil */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+
+/* ==========================================================================
+   4. COMPONENTES
+   ========================================================================== */
+
+/* ---------- 4.1 Botones ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font: 700 1rem var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--small { padding: 0.5rem 1rem; font-size: 0.95rem; }
+
+.btn--red { background: var(--color-red); color: #fff; }
+.btn--red:hover { filter: brightness(1.1); }
+
+/* Para fondos oscuros (hero) */
+.btn--outline { border-color: currentColor; color: inherit; }
+.btn--outline:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* Para fondos claros (confirmación) */
+.btn--outline-dark { border-color: var(--text); background: transparent; color: var(--text); }
+.btn--outline-dark:hover { background: var(--border); }
+
+
+/* ---------- 4.2 Cabecera ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-top: var(--safe-top);
+  background: var(--dark-bg);
+  color: var(--dark-text);
+  /* Franja de colores del poste en el borde inferior */
+  border-bottom: 4px solid transparent;
+  border-image: repeating-linear-gradient(
+    90deg,
+    var(--color-red) 0 24px, #fff 24px 48px,
+    var(--color-blue) 48px 72px, #fff 72px 96px
+  ) 1;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--header-height);
+}
+
+.site-header__logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-nav__link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.85;
+}
+.site-nav__link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+
+/* ---------- 4.3 Portada (hero) ---------- */
+.hero {
+  overflow: hidden;
+  background: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3rem;
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.hero__title {
+  font-size: clamp(3.6rem, 12vw, 8.5rem);
+  text-transform: uppercase;
+}
+.hero__title span { display: block; }
+
+.hero__lead {
+  max-width: 34ch;
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* Estado "Abierto ahora / Cerrado" (lo actualiza main.js) */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+.status__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #888;
+}
+.status--open .status__dot   { background: #4cc27a; }
+.status--closed .status__dot { background: var(--color-red); }
+
+
+/* ---------- 4.4 Poste de barbero ---------- */
+.pole {
+  position: relative;
+  flex: none;
+  width: 78px;
+  height: min(420px, 60vw);
+}
+
+/* Tapas metálicas arriba y abajo */
+.pole::before {
+  content: "";
+  position: absolute;
+  inset: -14px -6px;
+  border-radius: 12px;
+  background: linear-gradient(#cfd6e0, #8f9aab);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 24px, 0 24px,
+    0 calc(100% - 24px), 100% calc(100% - 24px), 100% 100%, 0 100%
+  );
+}
+
+/* Rayas que giran */
+.pole__tube {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 39px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-red) 0 20px, #fff 20px 40px,
+    var(--color-blue) 40px 60px, #fff 60px 80px
+  );
+  /* 113.14px = 80px / sin(45°): el tamaño exacto para un bucle sin saltos */
+  background-size: 100% 113.14px;
+  animation: pole-spin 3.2s linear infinite;
+}
+
+/* Brillo de vidrio por encima */
+.pole::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 39px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.35), rgba(255, 255, 255, 0.35) 22%,
+    rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.2) 85%, rgba(0, 0, 0, 0.4)
+  );
+}
+
+@keyframes pole-spin {
+  to { background-position-y: 113.14px; }
+}
+
+
+/* ---------- 4.5 Quiénes somos ---------- */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.about__photo {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  aspect-ratio: 4 / 5;
+  background: var(--border);
+}
+.about__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__text {
+  max-width: 52ch;
+  margin-top: 1.25rem;
+}
+.about__text:first-of-type { margin-top: 1.5rem; }
+
+.about__points {
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.about__point {
+  padding: 0.9rem 0 0.9rem 1rem;
+  border-left: 4px solid var(--color-red);
+  color: var(--text-muted);
+}
+.about__point + .about__point { margin-top: 0.75rem; }
+.about__point strong { color: var(--text); }
+
+
+/* ---------- 4.6 Galería "Nuestro trabajo" y visor de imágenes ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery__button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--border);
+  aspect-ratio: 4 / 5;
+  cursor: zoom-in;
+}
+.gallery__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.gallery__button:hover .gallery__image { transform: scale(1.04); }
+
+
+/* Visor de imágenes (lightbox) */
+.lightbox {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  background: rgba(8, 14, 26, 0.94);
+  color: #fff;
+  /* Se muestra como flex solo cuando está abierto (open) */
+}
+.lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.lightbox::backdrop { background: transparent; }
+
+.lightbox__figure {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  max-width: min(720px, 100%);
+  margin: 0;
+}
+.lightbox__image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 8rem);
+  border-radius: var(--radius);
+}
+.lightbox__caption { text-align: center; opacity: 0.85; }
+
+.lightbox__close,
+.lightbox__nav {
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font: 400 2rem/1 var(--font-body);
+  cursor: pointer;
+}
+.lightbox__close:hover,
+.lightbox__nav:hover { background: rgba(255, 255, 255, 0.26); }
+
+.lightbox__nav { width: 3rem; height: 3rem; }
+.lightbox__close {
+  position: absolute;
+  top: calc(1rem + var(--safe-top));
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+
+/* ---------- 4.7 Lista de servicios ---------- */
+.service-list {
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  column-gap: 0.75rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.service__name  { font-size: 1.15rem; font-weight: 700; }
+
+/* Línea punteada entre el nombre y el precio */
+.service__dots {
+  min-width: 1rem;
+  border-bottom: 2px dotted var(--border);
+  transform: translateY(-4px);
+}
+
+.service__price {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--color-red);
+}
+
+.service__description {
+  grid-column: 1 / -1;
+  margin-top: 0.15rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.service__badge {
+  margin-left: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+
+/* ---------- 4.8 Horarios y contacto ---------- */
+.schedule {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-collapse: collapse;
+}
+
+.schedule__day,
+.schedule__hours {
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+  text-align: left;
+}
+.schedule__hours {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fila del día actual (la marca main.js) */
+.schedule__row--today {
+  background: color-mix(in srgb, var(--color-red) 12%, transparent);
+}
+.schedule__row--today .schedule__day,
+.schedule__row--today .schedule__hours {
+  font-weight: 700;
+}
+
+.contact {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  font-style: normal;
+}
+.contact a { font-weight: 700; }
+
+
+/* ---------- 4.9 Formulario de reserva ---------- */
+.booking-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  max-width: 760px;
+  margin-top: 2.5rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.field--full { grid-column: 1 / -1; }
+
+.field__label {
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.field__input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: 400 1rem var(--font-body);
+}
+.field__input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-blue) 35%, transparent);
+}
+
+.field__error {
+  min-height: 1.1em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-red);
+}
+
+/* Selector de horas */
+.slots {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.slots__note {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+.slots__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slot { display: block; }
+
+/* El radio real se oculta pero sigue siendo accesible con teclado */
+.slot__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.slot__label {
+  display: block;
+  padding: 0.55rem 0.9rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.slot__input:checked + .slot__label {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: #fff;
+}
+.slot__input:focus-visible + .slot__label {
+  outline: 3px solid var(--color-red);
+  outline-offset: 2px;
+}
+.slot__input:disabled + .slot__label {
+  opacity: 0.35;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+
+/* ---------- 4.10 Confirmación ---------- */
+.confirmation {
+  max-width: 760px;
+  margin-top: 2.5rem;
+  padding: 1.75rem;
+  border-left: 8px solid var(--color-red);
+  background: var(--surface);
+}
+
+.confirmation__title {
+  margin-bottom: 0.75rem;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+}
+
+.confirmation__data {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1.25rem;
+  margin: 1rem 0 1.5rem;
+}
+.confirmation__data dt { color: var(--text-muted); }
+.confirmation__data dd { margin: 0; font-weight: 700; }
+
+.confirmation__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+
+/* ---------- 4.11 Pie de página ---------- */
+.site-footer {
+  padding-block: 2rem;
+  padding-bottom: calc(2rem + var(--safe-bottom));
+  background: var(--dark-bg);
+  color: var(--dark-text);
+  font-size: 0.95rem;
+}
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  opacity: 0.85;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 760px) {
+  .info-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about { grid-template-columns: 1fr; }
+  .about__photo { aspect-ratio: 4 / 3; }
+}
+
+@media (max-width: 720px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .pole { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* En móvil solo se deja el botón "Reservar" en la cabecera */
+  .site-nav__link { display: none; }
+  .booking-form { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+  .lightbox__nav { width: 2.5rem; height: 2.5rem; font-size: 1.6rem; }
+}
+
+
+/* ==========================================================================
+   5. ACCESIBILIDAD
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pole__tube { animation: none; }
+  .gallery__image { transition: none; }
+}

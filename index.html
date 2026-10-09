@@ -1,11 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Barbería con cortes, barba y afeitado clásico. Reserva tu cita en línea.">
+  <title>Noble Barber · Barbería</title>
+
+  <!-- Tipografías: Big Shoulders Display (títulos) y Figtree (texto) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
 </head>
+
 <body>
-    
+
+  <!-- ============ CABECERA ============ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-header__logo" href="#inicio">Noble Barber</a>
+
+      <nav class="site-nav" aria-label="Principal">
+        <a class="site-nav__link" href="#nosotros">Nosotros</a>
+        <a class="site-nav__link" href="#servicios">Servicios</a>
+        <a class="site-nav__link" href="#trabajos">Trabajos</a>
+        <a class="site-nav__link" href="#horarios">Horarios</a>
+        <a class="btn btn--small btn--red" href="#reservar">Reservar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ============ PORTADA ============ -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 class="hero__title">
+            <span>Corte limpio.</span>
+            <span>Barba al filo.</span>
+          </h1>
+          <p class="hero__lead">
+            Barbería de barrio con atención puntual, toalla caliente y navaja de verdad.
+          </p>
+
+          <div class="hero__actions">
+            <a class="btn btn--red" href="#reservar">Reservar cita</a>
+            <a class="btn btn--outline" href="#servicios">Ver precios</a>
+          </div>
+
+          <!-- El JS rellena este bloque con "Abierto ahora" / "Cerrado" -->
+          <p class="status" id="status" aria-live="polite">
+            <span class="status__dot"></span>
+            <span class="status__text">Revisando horario…</span>
+          </p>
+        </div>
+
+        <!-- Poste de barbero (decorativo, se anima solo con CSS) -->
+        <div class="pole" aria-hidden="true">
+          <div class="pole__tube"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUIÉNES SOMOS ============ -->
+    <section class="section" id="nosotros">
+      <div class="container about">
+        <figure class="about__photo">
+          <!-- Reemplaza esta imagen por una foto real del local o del equipo -->
+          <img src="images/imagen_local.png" alt="Poste de barbero a la entrada del local" width="800" height="1000" loading="lazy">
+        </figure>
+
+        <div class="about__content">
+          <h2 class="section__title">Quiénes somos</h2>
+          <p class="about__text">
+            Somos una barbería de barrio. Trabajamos con tijera, máquina y navaja,
+            y le dedicamos a cada cliente el tiempo que necesita para salir
+            conforme con su corte.
+          </p>
+          <p class="about__text">
+            Aquí no hay afán ni cortes de molde: primero hablamos de lo que
+            buscas y después tomamos las herramientas.
+          </p>
+
+          <ul class="about__points">
+            <li class="about__point">
+              <strong>Puntualidad.</strong> Si reservas a una hora, te atendemos a esa hora.
+            </li>
+            <li class="about__point">
+              <strong>Higiene.</strong> Herramientas limpias y desinfectadas después de cada cliente.
+            </li>
+            <li class="about__point">
+              <strong>Toalla caliente.</strong> En barba y afeitado, siempre.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICIOS ============ -->
+    <section class="section section--alt" id="servicios">
+      <div class="container">
+        <h2 class="section__title">Servicios</h2>
+        <p class="section__intro">
+          Precios en pesos colombianos. Todos los servicios incluyen lavado de cabello y acabado con producto.
+        </p>
+
+        <!-- El JS genera los <li> a partir de SERVICES (main.js) -->
+        <ul class="service-list" id="service-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============ NUESTRO TRABAJO ============ -->
+    <section class="section" id="trabajos">
+      <div class="container">
+        <h2 class="section__title">Nuestro trabajo</h2>
+        <p class="section__intro">Algunos cortes y arreglos recientes. Toca una foto para verla en grande.</p>
+
+        <!-- El JS genera las fotos a partir de GALLERY (main.js) -->
+        <ul class="gallery" id="gallery"></ul>
+      </div>
+    </section>
+
+    <!-- ============ HORARIOS Y UBICACIÓN ============ -->
+    <section class="section section--alt" id="horarios">
+      <div class="container info-grid">
+
+        <div>
+          <h2 class="section__title">Horarios</h2>
+          <!-- El JS genera las filas a partir de SCHEDULE (main.js) -->
+          <table class="schedule">
+            <tbody id="schedule-body"></tbody>
+          </table>
+        </div>
+
+        <div>
+          <h2 class="section__title">Dónde estamos</h2>
+          <address class="contact">
+            <p>Calle 00 # 00-00, tu barrio</p>
+            <p>WhatsApp: <a id="contact-whatsapp" href="#">300 000 0000</a></p>
+            <p>Instagram: <a href="#">@navajaytijera</a></p>
+          </address>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ RESERVA ============ -->
+    <section class="section" id="reservar">
+      <div class="container">
+        <h2 class="section__title">Reservar cita</h2>
+        <p class="section__intro">Elige servicio, día y hora. Te confirmamos por WhatsApp.</p>
+
+        <form class="booking-form" id="booking-form" novalidate>
+
+          <div class="field">
+            <label class="field__label" for="field-name">Nombre</label>
+            <input class="field__input" id="field-name" name="name" type="text" autocomplete="name" required>
+            <span class="field__error" data-error-for="name"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="field-phone">Teléfono</label>
+            <input class="field__input" id="field-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required>
+            <span class="field__error" data-error-for="phone"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="field-service">Servicio</label>
+            <!-- El JS agrega las <option> a partir de SERVICES -->
+            <select class="field__input" id="field-service" name="service" required>
+              <option value="">Elige un servicio</option>
+            </select>
+            <span class="field__error" data-error-for="service"></span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="field-date">Fecha</label>
+            <input class="field__input" id="field-date" name="date" type="date" required>
+            <span class="field__error" data-error-for="date"></span>
+          </div>
+
+          <fieldset class="field field--full slots">
+            <legend class="field__label">Hora</legend>
+            <p class="slots__note" id="slots-note">Elige primero una fecha.</p>
+            <!-- El JS genera los botones de hora según la fecha elegida -->
+            <div class="slots__list" id="slots-list"></div>
+            <span class="field__error" data-error-for="time"></span>
+          </fieldset>
+
+          <div class="field--full">
+            <button class="btn btn--red" type="submit">Solicitar cita</button>
+          </div>
+        </form>
+
+        <!-- Resumen que aparece después de enviar el formulario -->
+        <div class="confirmation" id="confirmation" hidden>
+          <h3 class="confirmation__title">Listo, casi está</h3>
+          <p>Revisa los datos y envíalos por WhatsApp para que te confirmemos la hora.</p>
+
+          <dl class="confirmation__data" id="confirmation-data"></dl>
+
+          <div class="confirmation__actions">
+            <a class="btn btn--red" id="confirmation-whatsapp" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <button class="btn btn--outline-dark" type="button" id="confirmation-edit">Cambiar datos</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ VISOR DE IMÁGENES ============ -->
+  <!-- <dialog> es un elemento nativo: maneja el foco y la tecla Esc por sí solo -->
+  <dialog class="lightbox" id="lightbox" aria-label="Galería ampliada">
+    <button class="lightbox__close" type="button" id="lightbox-close" aria-label="Cerrar">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" id="lightbox-prev" aria-label="Foto anterior">‹</button>
+
+    <figure class="lightbox__figure">
+      <img class="lightbox__image" id="lightbox-image" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+
+    <button class="lightbox__nav lightbox__nav--next" type="button" id="lightbox-next" aria-label="Foto siguiente">›</button>
+  </dialog>
+
+  <!-- ============ PIE DE PÁGINA ============ -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span>© <span id="footer-year"></span> Noble Barber</span>
+      <span>Con cita o por orden de llegada.</span>
+    </div>
+  </footer>
+
 </body>
 </html>
